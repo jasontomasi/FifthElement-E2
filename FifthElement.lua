@@ -20,7 +20,7 @@ if (first()) {
 	
     E2CHIP = entity()
     E2POS = entity():pos()
-    TORUSPOS = E2POS + vec(0,0,110)
+    TORUSPOS = E2POS + vec(0,0,80)
 
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(0,120,60), 0)
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(0,-120,60), 0)
@@ -72,10 +72,10 @@ holoScale(8, vec(0.9,0.9,5))
 
 
 holoCreate(50)
-holoPos(50, E2POS + vec(0,0,5))
+holoPos(50, E2POS - vec(0,0,20))
 holoModel(50, "models/jdavis/angel_statue/angel_statue.mdl")
 holoScale(50, vec(0.55,0.55,0.55))
-holoColor(50, vec(52,52,52))
+holoColor(50, vec(45,45,45))
 
     # COLOURS
     ROCK1 = vec(255,0,77) # PINK
@@ -165,11 +165,11 @@ function funcActivateLight() {
     
 # TORUS RING
     holoCreate(17)
-    holoPos(17, E2POS + vec(0,0,110))
+    holoPos(17, E2POS + vec(0,0,90))
     #holoAng(17, ChosenGPS:angles())
-    holoScaleUnits(17, vec(170,170,80))
+    holoScaleUnits(17, vec(170,170,100))
     holoModel(17, "hq_torus")
-    holoMaterial(17, "models/props_c17/fisheyelens_dx60")
+    holoMaterial(17, "models/props_forest/waterfall001")   # models/props_forest/waterfall001, models/props_c17/fisheyelens_dx60
     holoColor(17, vec(255,255,255), 200)
     
     TORUS = holoEntity(17)
@@ -260,6 +260,14 @@ if(clk("DivineSequence")) {
     holoMaterial(49, "models/alyx/emptool_glow") 
     holoColor(49, vec(255,255,255))
     
+    holoCreate(48)
+    holoModel(48, "cylinder")
+    holoPos(48, E2POS + vec(0,0,4096)) #4096
+    holoAng(48, ang(0,-90,0))
+    holoScaleUnits(48, vec(168,168,8192))  # 8092
+    holoMaterial(48, "models/props_forest/waterfall001") 
+    holoColor(48, vec(255,255,255))
+	
 	timer("Cleanup1",9000)
 }
 
@@ -271,11 +279,12 @@ if(clk("Cleanup1")) {
 	holoMaterial(11, "")
 	holoMaterial(12, "")
 	
-    holoColor(50, vec(52,52,52))
+    holoColor(50, vec(45,45,45))
     
     holoDelete(17)
     
     holoDelete(49)
+    holoDelete(48)
     
 for (Index = 13, 22) {
     if (holoEntity(Index)) {

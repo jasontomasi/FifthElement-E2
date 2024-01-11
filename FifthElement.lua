@@ -18,7 +18,7 @@ if (first()) {
     E4 = 0
     E5 = 0
     
-    RADIUS = 500
+    RADIUS = 250
 	
     E2CHIP = entity()
     E2POS = entity():pos()
@@ -168,15 +168,14 @@ function funcDivineSequence() {
     # Column of divine light
     holoCreate(49)
     holoModel(49, "cylinder")
-    holoPos(49, E2POS + vec(0,0,4096)) #4096
+    holoPos(49, E2POS + vec(0,0,0)) #4096
     holoScaleUnits(49, vec(170,170,8192))  # 8092
     holoMaterial(49, "models/alyx/emptool_glow") 
     holoColor(49, vec(255,255,255))
     
     holoCreate(48)
     holoModel(48, "cylinder")
-    holoPos(48, E2POS + vec(0,0,4096)) #4096
-    holoAng(48, ang(0,-90,0))
+    holoPos(48, E2POS + vec(0,0,0)) #4096
     holoScaleUnits(48, vec(168,168,8192))  # 8092
     holoMaterial(48, "models/props_forest/waterfall001") 
     holoColor(48, vec(255,255,255))

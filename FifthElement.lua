@@ -1,6 +1,6 @@
 @name Fifth Element
 @inputs B1 B2 B3 B4 B5
-@persist ELEMENTS:array ELEMENT:entity ROCK1:vector ROCK2:vector ROCK3:vector ROCK4:vector E1 E2 E3 E4 E5 RADIUS
+@persist ELEMENTS:array ELEMENT:entity ROCK1:vector ROCK2:vector ROCK3:vector ROCK4:vector E1 E2 E3 E4 E5 RADIUS StoneMoving ElementMaterial:string
 
 interval(1000)
 
@@ -11,23 +11,33 @@ E2POS = entity():pos()
 
 
 if (first()) {
-    
+
+    RADIUS = 250
+	
+	# ELEMENT COLOURS
+    ROCK1 = vec(255,0,0) # PINK   vec(132,0,50)
+    ROCK2 = vec(255,255,0) # YELLOW
+    ROCK3 = vec(0,255,0) # GREEN
+    ROCK4 = vec(0,161,255) # BLUE
+	
+    E2CHIP = entity()
+    E2POS = entity():pos()
+
+	StoneMoving = 1
+
     E1 = 0
     E2 = 0
     E3 = 0
     E4 = 0
     E5 = 0
-    
-    RADIUS = 250
-	
-    E2CHIP = entity()
-    E2POS = entity():pos()
+
+	ElementMaterial = "models/vgui/tv_spectate"
 
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(0,120,60), 0)
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(0,-120,60), 0)
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(120,0,60), 0)
     #propSpawn("models/cubic/props/crystal1.mdl", E2POS + vec(-120,0,60), 0)
-    
+
 # BASE PILLARS
 holoCreate(1)
 holoPos(1, E2POS + vec(RADIUS,0,25))
@@ -69,29 +79,47 @@ holoScale(7, vec(0.8,0.8,5))
 holoCreate(8)
 holoPos(8, holoEntity(4):pos() + vec(0,0,20))
 holoMaterial(8, "models/props_c17/furniturefabric001a")
-holoScale(8, vec(0.98,0.8,5))
+holoScale(8, vec(0.8,0.8,5))
 
 
+# ELEMENT LIGHTS
+holoCreate(9)
+holoScale(9, vec(0.7,0.7,7))
+holoColor(9, ROCK1)
+holoPos(9, holoEntity(1):pos() + vec(0,0,-5))
+
+holoCreate(10)
+holoPos(10, holoEntity(2):pos() + vec(0,0,-5))
+holoScale(10, vec(0.7,0.7,7))
+holoColor(10, ROCK2)
+
+holoCreate(11)
+holoPos(11, holoEntity(3):pos() + vec(0,0,-5))
+holoScale(11, vec(0.7,0.7,7))
+holoColor(11, ROCK3)
+
+holoCreate(12)
+holoPos(12, holoEntity(4):pos() + vec(0,0,-5))
+holoScale(12, vec(0.7,0.7,7))
+holoColor(12, ROCK4)	
+
+
+# FIFTH ELEMENT IDOL
 holoCreate(50)
 holoPos(50, E2POS - vec(0,0,20))
 holoModel(50, "models/jdavis/angel_statue/angel_statue.mdl")
 holoScale(50, vec(0.55,0.55,0.55))
 holoColor(50, vec(45,45,45))
 
-    # COLOURS
-    ROCK1 = vec(132,0,50) # PINK
-    ROCK2 = vec(255,255,0) # YELLOW
-    ROCK3 = vec(0,255,0) # GREEN
-    ROCK4 = vec(0,161,255) # BLUE
 
 
 
 function funcActivateLight() {
 
-	holoMaterial(9, "models/alyx/emptool_glow")
-	holoMaterial(10, "models/alyx/emptool_glow")
-	holoMaterial(11, "models/alyx/emptool_glow")
-	holoMaterial(12, "models/alyx/emptool_glow")
+	holoMaterial(9, ElementMaterial)
+	holoMaterial(10, ElementMaterial)
+	holoMaterial(11, ElementMaterial)
+	holoMaterial(12, ElementMaterial)
 
 lightCreate(9, holoEntity(1):pos() + vec(0,0,90), ROCK1, 150, 150)
 lightCreate(10, holoEntity(2):pos() + vec(0,0,90), ROCK2, 150, 150)
@@ -165,17 +193,18 @@ function funcDivineSequence() {
     # Turn the statue white during divine light seq
     holoColor(50, vec(255,255,255))
     
-    # Column of divine light
+    # Column of divine light 1
     holoCreate(49)
     holoModel(49, "cylinder")
-    holoPos(49, E2POS + vec(0,0,0)) #4096
+    holoPos(49, holoEntity(17):pos() + vec(0,0,0)) #4096
     holoScaleUnits(49, vec(170,170,8192))  # 8092
     holoMaterial(49, "models/alyx/emptool_glow") 
     holoColor(49, vec(255,255,255))
     
+    # Column of divine light 2
     holoCreate(48)
     holoModel(48, "cylinder")
-    holoPos(48, E2POS + vec(0,0,0)) #4096
+    holoPos(48, holoEntity(17):pos() + vec(0,0,0)) #4096
     holoScaleUnits(48, vec(168,168,8192))  # 8092
     holoMaterial(48, "models/props_forest/waterfall001") 
     holoColor(48, vec(255,255,255))
@@ -188,15 +217,10 @@ function funcDivineSequence() {
 
 
 
-
-
 if(E1 == 1) {
     #lightCreate(1, E2POS + vec(RADIUS,0,100), ROCK1, 150, 200)
-    holoCreate(9)
     holoPos(9, holoEntity(1):pos() + vec(0,0,25))
-    holoScale(9, vec(0.7,0.7,7))
-    holoColor(9, ROCK1)
-    
+
     lightCreate(81, holoEntity(5):pos() + vec(0,-35,25), ROCK1, 50, 15)
     lightCreate(82, holoEntity(5):pos() + vec(-35,0,25), ROCK1, 50, 15)
     lightCreate(83, holoEntity(5):pos() + vec(0,35,25), ROCK1, 50, 15)
@@ -205,11 +229,8 @@ if(E1 == 1) {
 
 if(E2 == 1) {
     #lightCreate(2, E2POS + vec(-RADIUS,0,100), ROCK2, 150, 200)
-    holoCreate(10)
     holoPos(10, holoEntity(2):pos() + vec(0,0,25))
-    holoScale(10, vec(0.7,0.7,7))
-    holoColor(10, ROCK2)
-    
+
     lightCreate(85, holoEntity(6):pos() + vec(0,-35,25), ROCK2, 50, 15)
     lightCreate(86, holoEntity(6):pos() + vec(-35,0,25), ROCK2, 50, 15)
     lightCreate(87, holoEntity(6):pos() + vec(0,35,25), ROCK2, 50, 15)
@@ -218,11 +239,8 @@ if(E2 == 1) {
 
 if(E3 == 1) {
     #lightCreate(3, E2POS + vec(0,-RADIUS,100), ROCK3, 150, 200)
-    holoCreate(11)
     holoPos(11, holoEntity(3):pos() + vec(0,0,25))
-    holoScale(11, vec(0.7,0.7,7))
-    holoColor(11, ROCK3)
-    
+
     lightCreate(89, holoEntity(7):pos() + vec(0,-35,25), ROCK3, 50, 15)
     lightCreate(90, holoEntity(7):pos() + vec(-35,0,25), ROCK3, 50, 15)
     lightCreate(91, holoEntity(7):pos() + vec(0,35,25), ROCK3, 50, 15)
@@ -231,11 +249,8 @@ if(E3 == 1) {
 
 if(E4 == 1) {
     #lightCreate(4, E2POS + vec(0,RADIUS,100), ROCK4, 150, 200)
-    holoCreate(12)
     holoPos(12, holoEntity(4):pos() + vec(0,0,25))
-    holoScale(12, vec(0.7,0.7,7))
-    holoColor(12, ROCK4)
-    
+
     lightCreate(93, holoEntity(8):pos() + vec(0,-35,25), ROCK4, 50, 15)
     lightCreate(94, holoEntity(8):pos() + vec(-35,0,25), ROCK4, 50, 15)
     lightCreate(95, holoEntity(8):pos() + vec(0,35,25), ROCK4, 50, 15)
@@ -295,6 +310,8 @@ if(clk("DivineSequence")) {
 
 if(clk("Cleanup1")) {
 
+StoneMoving = 1
+
 	holoMaterial(9, "")
 	holoMaterial(10, "")
 	holoMaterial(11, "")
@@ -320,18 +337,29 @@ for (Index = 5, 32) {
         lightRemove(Index)
     }
 }    
-	
-timer("Cleanup2",3000)
+
+timer("StonesRetract",1000)
+timer("Cleanup2",5000)
+}
+
+
+if(clk("StonesRetract")) {
+
+if (StoneMoving == 1) {
+for (Index = 9, 12) {
+    StoneCurPos = holoEntity(Index):pos()
+    holoPos(Index, holoEntity(Index):pos() - vec(0, 0, 1))
+    #lightPos(Index, StoneCurPos)
+}
+
+timer("StonesRetract",100)
+}
 }
 
 
 if(clk("Cleanup2")) {
 
-for (Index = 9, 12) {
-    if (holoEntity(Index)) {
-        holoDelete(Index)
-    }
-}
+ StoneMoving = 0
 
 for (Index = 80, 100) {
     if (lightEntity(Index)) {
